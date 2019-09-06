@@ -10,7 +10,7 @@ export const PlayingBoard = styled.div`
 `;
 
 export const FieldElement = styled.div`
-    background: ${props => (props.dark ? "black" : "white")};
+    background: ${props => (props.dark ? "#1a2229" : "white")};
     width: ${props => 300/props.rows - 4}px;
     line-height: ${props => 300/props.rows - 4}px;
     float: left;

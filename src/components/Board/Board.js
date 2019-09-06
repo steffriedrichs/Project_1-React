@@ -6,9 +6,6 @@ import { PlayingBoard } from "./style";
 export default class Board extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            numberOfRows: 4,
-        };
         this.getFields = this.getFields.bind(this);
     }
 
@@ -20,6 +17,6 @@ export default class Board extends Component {
     }
 
     render() {
-        return <PlayingBoard>{this.getFields(this.state.numberOfRows)}</PlayingBoard>;
+        return <PlayingBoard>{this.getFields(this.props.numberOfRows)}</PlayingBoard>;
     }
 }

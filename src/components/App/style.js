@@ -7,3 +7,10 @@ export const Container = styled.div`
     height: 100%;
     text-align: center;
 `;
+
+export const StartGameButton = styled.button`
+    display: block;
+    height: 20px; 
+    background-color: #1a2229;
+    color: white;
+`;

@@ -3,10 +3,12 @@ import styled from "styled-components";
 export const PlayingBoard = styled.div`
     border: 3px solid red;
     display: inline-block;
-    width: 300px;
-    height: 300px;
-    margin-top: 10%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 400px;
+    max-height: 400px;
     border-radius: 5px;
+    margin: 20px;
 `;
 
 export const FieldElement = styled.div`

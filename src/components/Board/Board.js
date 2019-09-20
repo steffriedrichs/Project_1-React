@@ -16,6 +16,8 @@ export default class Board extends Component {
         ));
     }
 
+    
+
     render() {
         return <PlayingBoard>{this.getFields(this.props.numberOfRows)}</PlayingBoard>;
     }

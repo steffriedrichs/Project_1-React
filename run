@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+npm start
+
+# ./node_modules/.bin/cypress run

@@ -11,8 +11,8 @@ export const PlayingBoard = styled.div`
     margin: 20px;
 `;
 
-export const FieldElement = styled.div`
-    background: ${props => (props.dark ? "#1a2229" : "#ede8e4")};
+export const Field = styled.div`
+    background: ${props => (props.dark ? "#525252" : "#9c9c9c")};
     max-width: ${props => 400/props.rows - 4}px;
     max-height: ${props => 400/props.rows - 4}px;
     width: ${props => 60/props.rows-1}vw;

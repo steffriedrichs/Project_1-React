@@ -17,15 +17,23 @@ export default class App extends Component {
         this.state = {
             numberOfRows: 0,
         };
-        this.getFieldMatrix = this.getFieldMatrix.bind(this);
+        this.getFieldsArray = this.getFieldsArray.bind(this);
     }
 
-    getFieldMatrix(n) {
-        Math.floor(Math.random() * n);
+    getFieldsArray(n) {
+        let fieldsArray = [...Array(n * n).fill(0)];
+        let numbersToSelect = Math.floor(n * n * 0.4);
 
-        //       if(!selectedFields.includes(index)){
-        //         selectedFields.push(index);
-        //       }
+        for(let i = 0; i<numbersToSelect; i=i+1) {
+            const index = Math.floor(Math.random() * 16);
+            if (fieldsArray[index] === 0) {
+                fieldsArray[index] = 1;
+            }
+        }
+        console.log(fieldsArray);
+
+        // check if numbers already labeled as 1 were selected
+        return fieldsArray;
     }
 
     render() {
@@ -43,7 +51,7 @@ export default class App extends Component {
                 </TopContentContainer>
                 <Board
                     numberOfRows={this.state.numberOfRows}
-                    fieldMatrix={this.getFieldMatrix(this.state.numberOfRows)}
+                    fieldsArray={this.getFieldsArray(this.state.numberOfRows)}
                 />
                 <BottomContentContainer>
                     <FixLevelSelector>fix size</FixLevelSelector>

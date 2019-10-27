@@ -12,14 +12,13 @@ export const PlayingBoard = styled.div`
 `;
 
 export const Field = styled.div`
-    background: ${props => (props.dark ? "#525252" : "#9c9c9c")};
-    max-width: ${props => 400/props.rows - 4}px;
-    max-height: ${props => 400/props.rows - 4}px;
-    width: ${props => 60/props.rows-1}vw;
-    heigth: ${props => 60/props.rows-1}vw;
-    line-height: ${props => 60/props.rows-1}vw;
+    background: ${props => (props.dark ? `rgba(53,53,53,0.7)` : `rgba(153,153,153,0.7)`)};
+    max-width: ${props => 400 / props.rows - props.rows}px;
+    max-height: ${props => 400 / props.rows - props.rows}px;
+    width: ${props => 60 / props.rows - 1}vw;
+    line-height: ${props => 60 / props.rows - 1}vw;
     float: left;
-    margin: 2px;
+    margin: 2px 0px 0px 2px;
     border-radius: 3px;
     color: white;
 `;

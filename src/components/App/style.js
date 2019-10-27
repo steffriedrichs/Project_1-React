@@ -13,15 +13,21 @@ export const TopContentContainer = styled.div`
     padding: 50px 20px 0px 20px;
 `;
 
-export const StartGameButton = styled.button`
+export const Button = styled.button`
     display: inline;
     height: 25px; 
-    line-height: 25px;
+    line-height: 23px;
+    margin: 5px;
     background-color: grey;
     color: white;
     text-align: center;
     border-radius: 5px;
     border: none;
+    outline: none;
+    &:hover {
+        background-color: #454343
+        color: #cfcfcf;
+      }
 `;
 
 export const LevelDisplay = styled.div`
@@ -30,17 +36,6 @@ export const LevelDisplay = styled.div`
 
 export const BottomContentContainer = styled.div`
     padding: 0px 20px;
-`;
-
-export const RestartLevelButton = styled.button`
-    display: inline;
-    height: 25px; 
-    line-height: 25px;
-    background-color: grey;
-    color: white;
-    text-align: center;
-    border-radius: 5px;
-    border: none;
 `;
 
 export const FixLevelSelector = styled.div`

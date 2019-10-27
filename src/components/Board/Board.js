@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-// import { Field } from "./Field";
 import { PlayingBoard, Field } from "./style";
 
 export default class Board extends Component {

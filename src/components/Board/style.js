@@ -24,14 +24,12 @@ export const Field = styled.div`
 `;
 
 export const Stone = styled.div`
-    background: black;
+    background: ${props => (props.exists == 1 ? `black` : null)};
     max-width: ${props => 200 / props.rows - props.rows}px;
     max-height: ${props => 200 / props.rows - props.rows}px;
     width: ${props => 30 / props.rows - 1}vw;
-    line-height: ${props => 30 / props.rows - 1}vw;
-    float: left;
-    margin: 2px 0px 0px 2px;
+    height: ${props => 30 / props.rows - 1}vw;
     border-radius: 100px;
-    color: black;
-    z-index: 2;
+    margin: auto;
+    margin-top: 25%;
 `;

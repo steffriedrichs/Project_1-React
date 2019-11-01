@@ -8,14 +8,6 @@ export default class Board extends Component {
         this.getFields = this.getFields.bind(this);
     }
 
-    getFields(fieldsArray, rows) {
-        return fieldsArray.map((field, index) => (
-            <Field key={index} id={index} rows={rows} dark={field}>
-                <Stone key={index} id={index} rows={rows}>{index}</Stone>
-            </Field>
-        ));
-    }
-
     initStones(n) {
         let stonesArray = [...Array(n * n).fill(0)];
         let numbersToSelect = Math.floor(n * n * 0.4);
@@ -31,11 +23,19 @@ export default class Board extends Component {
         return stonesArray;
     }
 
+    getFields(fieldsArray, rows, stones) {
+        return fieldsArray.map((field, index) => (
+            <Field key={index} id={index} rows={rows} dark={field}>
+                <Stone rows={rows} exists={stones[index]}></Stone>
+            </Field>
+        ));
+    }
+
     render() {
         let currentStones = this.initStones(this.props.numberOfRows);
         console.log(currentStones);
         return <PlayingBoard>
-            {this.getFields(this.props.fieldsArray, this.props.numberOfRows)}
+            {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
         </PlayingBoard>;
     }
 }

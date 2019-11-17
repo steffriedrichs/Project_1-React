@@ -18,13 +18,13 @@ export const Field = styled.div`
     width: ${props => 60 / props.rows - 1}vw;
     height: ${props => 60 / props.rows - 1}vw;
     float: left;
-    margin: 2px 0px 0px 2px;
+    margin: 3px 0px 0px 3px;
     border-radius: 3px;
     color: white;
 `;
 
 export const Stone = styled.div`
-    background: ${props => (props.exists == 1 ? `black` : null)};
+    background: ${props => (props.exists ? `black` : null)};
     max-width: ${props => 200 / props.rows - props.rows}px;
     max-height: ${props => 200 / props.rows - props.rows}px;
     width: ${props => 30 / props.rows - 1}vw;

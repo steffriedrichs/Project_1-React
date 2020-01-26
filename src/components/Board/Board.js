@@ -27,7 +27,7 @@ export default class Board extends Component {
         return stonesArray;
     }
 
-    handleMouseMove(mouseMoveEvent, mouseDown) {
+    getMouseMove(mouseMoveEvent, mouseDown) {
         if (!mouseDown) return null;
 
         let moveX = mouseMoveEvent.movementX
@@ -47,37 +47,36 @@ export default class Board extends Component {
     checkMove(direction, fieldId, n, currentStones) {
         if (!direction) return;
 
+        let shiftToStart = (colOrRow, currentStones) => {
+            for( let k = 0; k < n-1; k = k + 1 ){
+                currentStones[colOrRow[k]] = currentStones[colOrRow[k+1]]
+            }
+            currentStones[colOrRow[n-1]] = 0;
+            this.setState({ currentStones: currentStones });
+        }
+
+        let shiftToEnd = (colOrRow, currentStones) => {
+            for( let k = n-1; k > 0; k = k - 1){
+                currentStones[colOrRow[k]] = currentStones[colOrRow[k-1]]
+            }
+            currentStones[colOrRow[0]] = 0;
+            this.setState({ currentStones: currentStones });
+        }
+
         if (direction === "up" || direction === "down") {
- 
             let col = [];
             let number = fieldId % n;
             for (let i = n; i > 0; i = i - 1) {
                 col.push(n * (n - i) + number)
             }
-
-            if( direction === "up"){
+            if( direction === "up" ){
                 if( currentStones[col[0]] === 1 ) return; 
-
-                // execute valid move
-                // if stones are in col only -> quite complicated with stones & col arrays ... 
-                // if (array.reduce((pv, cv) => pv + cv, 0) == 0) return; 
-
-                for( let k = 0; k < n-1; k = k + 1){
-                    currentStones[col[k]] = currentStones[col[k+1]]
-                }
-                currentStones[col[n-1]] = 0;
-                this.setState({ currentStones: currentStones });
+                shiftToStart(col, currentStones);
                 return;
             }
-
             if( direction === "down" ){
                 if(currentStones[col[n-1]] === 1 ) return; 
-
-                for( let k = n-1; k > 0; k = k - 1){
-                    currentStones[col[k]] = currentStones[col[k-1]]
-                }
-                currentStones[col[0]] = 0;
-                this.setState({ currentStones: currentStones });
+                shiftToEnd(col, currentStones);
                 return;
             }
         }
@@ -88,30 +87,17 @@ export default class Board extends Component {
             for (let j = n; j > 0; j = j - 1) {
                 row.push((n - j) + number * n)
             }
-
             if( direction === "right"){
                 if( currentStones[row[n-1]] === 1 ) return; 
-
-                for( let k = n-1; k > 0; k = k - 1){
-                    currentStones[row[k]] = currentStones[row[k-1]]
-                }
-                currentStones[row[0]] = 0;
-                this.setState({ currentStones: currentStones });
+                shiftToEnd(row, currentStones);
                 return;
             }
-
             if( direction === "left"){
                 if( currentStones[row[0]] === 1 ) return; 
-
-                for( let k = 0; k < n-1; k = k + 1){
-                    currentStones[row[k]] = currentStones[row[k+1]]
-                }
-                currentStones[row[n-1]] = 0;
-                this.setState({ currentStones: currentStones });
+                shiftToStart(row, currentStones);
                 return;
             }
         }
-
     }
 
     getFields(fieldsArray, rows, currentStones) {
@@ -121,7 +107,7 @@ export default class Board extends Component {
         return fieldsArray.map((field, index) => (
             <Field key={index} id={index} rows={rows} dark={field}
                 onMouseDown={() => mouseDown = true}
-                onMouseMove={mouseMoveEvent => direction = this.handleMouseMove(mouseMoveEvent, mouseDown)}
+                onMouseMove={mouseMoveEvent => direction = this.getMouseMove(mouseMoveEvent, mouseDown)}
                 onMouseUp={() => {
                     mouseDown = false
                     this.checkMove(direction, index, rows, currentStones)
@@ -135,6 +121,10 @@ export default class Board extends Component {
     render() {
         let currentStones = this.state.currentStones.length === 0 ? 
             this.initStones(this.props.numberOfRows) : this.state.currentStones;
+  
+        if( JSON.stringify(currentStones) === JSON.stringify(this.props.fieldsArray) ){
+            console.log("YOU WIN!!");
+        }
 
         return <PlayingBoard>
             {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}

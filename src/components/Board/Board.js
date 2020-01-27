@@ -12,6 +12,10 @@ export default class Board extends Component {
         this.checkMove = this.checkMove.bind(this);
     }
 
+    componentDidMount(){
+        this.setState({ currentStones: [] });
+    }
+
     initStones(n) {
         let stonesArray = [...Array(n * n).fill(0)];
         let numbersToSelect = Math.floor(n * n * 0.4);
@@ -53,14 +57,14 @@ export default class Board extends Component {
     }
 
     evalTouches(ongoingTouches){
-        let result = null;
+        if(!ongoingTouches || ongoingTouches.length === 0) return;
 
         let start = ongoingTouches[0];
         let end = ongoingTouches[ongoingTouches.length-1];
-
         let moveX = end.posX - start.posX
         let moveY = end.posY - start.posY
-
+        
+        let result = null;
         if (Math.abs(moveX) > Math.abs(moveY)) {
             result = moveX > 0 ? "right" : "left";
         }
@@ -68,7 +72,6 @@ export default class Board extends Component {
             result = moveY > 0 ? "down" : "up";
         }
         return result;
-
     }
 
     checkMove(direction, fieldId, n, currentStones) {
@@ -154,10 +157,12 @@ export default class Board extends Component {
 
     render() {
         let currentStones = this.state.currentStones.length === 0 ? 
-            this.initStones(this.props.numberOfRows) : this.state.currentStones;
-  
+        this.initStones(this.props.numberOfRows) : this.state.currentStones;
+        
         if( JSON.stringify(currentStones) === JSON.stringify(this.props.fieldsArray) ){
             console.log("YOU WIN!!");
+            // hier müssen die Steine resettet werden, sonst hängen sie fest nachdem man gewonnen hat
+            // currentStones = [];
         }
 
         return <PlayingBoard>

@@ -29,6 +29,7 @@ export default class Board extends Component {
 
     getMouseMove(mouseMoveEvent, mouseDown) {
         if (!mouseDown) return null;
+        console.log("mouseMoveEvent", mouseMoveEvent);
 
         let moveX = mouseMoveEvent.movementX
         let moveY = mouseMoveEvent.movementY
@@ -40,8 +41,35 @@ export default class Board extends Component {
         if (Math.abs(moveY) > Math.abs(moveX)) {
             result = moveY > 0 ? "down" : "up";
         }
-        console.log(result);
         return result;
+    }
+
+    getTouchMove(touchMoveEvent, ongoingTouches) {
+        let newTouch = { 
+            posX: touchMoveEvent.targetTouches[0].pageX,
+            posY: touchMoveEvent.targetTouches[0].pageY,
+        } 
+        ongoingTouches.push(newTouch);
+        return ongoingTouches;
+    }
+
+    evalTouches(ongoingTouches){
+        let result = null;
+
+        let start = ongoingTouches[0];
+        let end = ongoingTouches[ongoingTouches.length-1];
+
+        let moveX = end.posX - start.posX
+        let moveY = end.posY - start.posY
+
+        if (Math.abs(moveX) > Math.abs(moveY)) {
+            result = moveX > 0 ? "right" : "left";
+        }
+        if (Math.abs(moveY) > Math.abs(moveX)) {
+            result = moveY > 0 ? "down" : "up";
+        }
+        return result;
+
     }
 
     checkMove(direction, fieldId, n, currentStones) {
@@ -102,6 +130,7 @@ export default class Board extends Component {
 
     getFields(fieldsArray, rows, currentStones) {
         let mouseDown = false;
+        let ongoingTouches = [];
         let direction = null;
 
         return fieldsArray.map((field, index) => (
@@ -111,6 +140,12 @@ export default class Board extends Component {
                 onMouseUp={() => {
                     mouseDown = false
                     this.checkMove(direction, index, rows, currentStones)
+                }}
+                onTouchMove={touchMoveEvent => ongoingTouches = this.getTouchMove(touchMoveEvent, ongoingTouches)}
+                onTouchEnd={() => {
+                    direction = this.evalTouches(ongoingTouches);
+                    this.checkMove(direction, index, rows, currentStones)
+                    ongoingTouches = [];
                 }}
             >
                 <Stone rows={rows} exists={currentStones[index]}></Stone>

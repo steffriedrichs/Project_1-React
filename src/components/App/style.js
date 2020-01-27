@@ -10,7 +10,7 @@ export const Container = styled.div`
 `;
 
 export const TopContentContainer = styled.div`
-    padding: 50px 20px 0px 20px;
+    padding: 120px 20px 0px 20px;
 `;
 
 export const Button = styled.button`

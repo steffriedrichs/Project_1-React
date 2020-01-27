@@ -29,7 +29,6 @@ export default class Board extends Component {
 
     getMouseMove(mouseMoveEvent, mouseDown) {
         if (!mouseDown) return null;
-        console.log("mouseMoveEvent", mouseMoveEvent);
 
         let moveX = mouseMoveEvent.movementX
         let moveY = mouseMoveEvent.movementY
@@ -166,15 +165,3 @@ export default class Board extends Component {
         </PlayingBoard>;
     }
 }
-
-
-{/* 
-onTouchStart={touchStartEvent => this.handleTouchStart(touchStartEvent)}
-onTouchMove={touchMoveEvent => this.handleTouchMove(touchMoveEvent)}
-onTouchEnd={() => this.handleTouchEnd()}
-
-onMouseDown={mouseDownEvent => this.handleMouseDown(mouseDownEvent)}
-onMouseMove={mouseMoveEvent => this.handleMouseMove(mouseMoveEvent)}
-onMouseUp={() => this.handleMouseUp()}
-onMouseLeave={() => this.handleMouseLeave()}
-*/}

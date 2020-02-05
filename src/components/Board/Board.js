@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { PlayingBoard, Field, Stone } from "./style";
+import { PlayingBoard, Field, Stone, InfoBox, WinningText } from "./style";
 
 export default class Board extends Component {
     constructor(props) {
@@ -160,13 +160,15 @@ export default class Board extends Component {
     render() {
         let currentStones = this.state.currentStones.length === 0 ? 
         this.initStones(this.props.numberOfRows) : this.state.currentStones;
+        let displayWin = false;
         
         if( JSON.stringify(currentStones) === JSON.stringify(this.props.fieldsArray) ){
-            console.log("YOU WIN!!"); 
+            displayWin = true;
         }
 
         return <PlayingBoard>
             {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
+            {displayWin ? <InfoBox><WinningText>YOU WIN!!</WinningText></InfoBox>: <></>}
         </PlayingBoard>;
     }
 }

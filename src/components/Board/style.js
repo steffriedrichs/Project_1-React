@@ -33,3 +33,20 @@ export const Stone = styled.div`
     margin: auto;
     margin-top: 25%;
 `;
+
+export const InfoBox = styled.div`
+    background: pink;
+    opacity: 0.8;
+    width: 50vw;
+    height: 30vw;
+    max-width: 300px;
+    max-height: 200px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 25%;
+`;
+
+export const WinningText = styled.div`
+    position: fixed;
+    font-weight: bold;
+`;

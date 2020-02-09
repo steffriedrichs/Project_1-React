@@ -14,9 +14,15 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numberOfRows: 0,
+            numberOfRows: 3,
         };
         this.getFieldsArray = this.getFieldsArray.bind(this);
+        this.handleFieldSizeChange = this.handleFieldSizeChange.bind(this);
+    }
+
+    handleFieldSizeChange(currentSize) {
+        let newSize = currentSize + 1;
+        this.setState({ numberOfRows: newSize });
     }
 
     getFieldsArray(n) {
@@ -40,7 +46,7 @@ export default class App extends Component {
                 <TopContentContainer>
                     <Button
                         onClick={() => {
-                            this.setState({ numberOfRows: 4 });
+                            this.forceUpdate();
                         }}
                     >
                         New Game
@@ -50,6 +56,7 @@ export default class App extends Component {
                 <Board
                     numberOfRows={this.state.numberOfRows}
                     fieldsArray={this.getFieldsArray(this.state.numberOfRows)}
+                    handleWinning={this.handleFieldSizeChange}
                 />
                 <BottomContentContainer>
                     <FixLevelSelector>fix size</FixLevelSelector>

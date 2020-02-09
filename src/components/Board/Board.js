@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { PlayingBoard, Field, Stone, InfoBox, WinningText } from "./style";
+import { PlayingBoard, Field, Stone, InfoBox, WinningText, Nodisplay } from "./style";
+import { Button } from "../App/style";
 
 export default class Board extends Component {
     constructor(props) {
@@ -184,6 +185,12 @@ export default class Board extends Component {
                 {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
                     <InfoBox>
                         <WinningText>YOU WIN!!</WinningText>
+                        <Nodisplay>
+                            {setTimeout(
+                                () => this.props.handleWinning(this.props.numberOfRows),
+                                3000
+                            )}
+                        </Nodisplay>
                     </InfoBox>
                 ) : (
                     <></>

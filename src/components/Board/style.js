@@ -50,3 +50,7 @@ export const WinningText = styled.div`
     position: fixed;
     font-weight: bold;
 `;
+
+export const Nodisplay = styled.p`
+    display: none;
+`;

@@ -15,19 +15,31 @@ export default class App extends Component {
         super(props);
         this.state = {
             numberOfRows: 3,
+            level: 1,
         };
+        this.startNewGame = this.startNewGame.bind(this);
         this.getFieldsArray = this.getFieldsArray.bind(this);
         this.handleFieldSizeChange = this.handleFieldSizeChange.bind(this);
     }
 
-    handleFieldSizeChange(currentSize) {
-        let newSize = currentSize + 1;
-        this.setState({ numberOfRows: newSize });
+    startNewGame() {
+        this.setState({ numberOfRows: 3, level: 1 });
     }
 
-    getFieldsArray(n) {
+    handleFieldSizeChange(currentSize, currentLevel) {
+        let newLevel = currentLevel + 1;
+        if (currentLevel % 5 != 0) {
+            this.setState({ level: newLevel });
+        } else {
+            let newSize = currentSize + 1;
+            this.setState({ numberOfRows: newSize, level: newLevel });
+        }
+    }
+
+    getFieldsArray(n, level) {
         let fieldsArray = [...Array(n * n).fill(0)];
-        let numbersToSelect = Math.floor(n * n * 0.4);
+        let factor = level % 5 != 0 ? level % 5 : 5;
+        let numbersToSelect = Math.floor(n * n * (factor / 10 + 0.2));
 
         for (let i = 0; i < numbersToSelect; i = i + 1) {
             const index = Math.floor(Math.random() * n * n);
@@ -44,23 +56,29 @@ export default class App extends Component {
         return (
             <Container>
                 <TopContentContainer>
+                    <LevelDisplay>Level {this.state.level}</LevelDisplay>
                     <Button
                         onClick={() => {
                             this.forceUpdate();
                         }}
                     >
-                        New Game
+                        Restart Level
                     </Button>
-                    <LevelDisplay>Level</LevelDisplay>
                 </TopContentContainer>
                 <Board
                     numberOfRows={this.state.numberOfRows}
-                    fieldsArray={this.getFieldsArray(this.state.numberOfRows)}
+                    level={this.state.level}
+                    fieldsArray={this.getFieldsArray(this.state.numberOfRows, this.state.level)}
                     handleWinning={this.handleFieldSizeChange}
                 />
                 <BottomContentContainer>
-                    <FixLevelSelector>fix size</FixLevelSelector>
-                    <Button>Restart Level</Button>
+                    <Button
+                        onClick={() => {
+                            this.startNewGame();
+                        }}
+                    >
+                        New Game
+                    </Button>
                 </BottomContentContainer>
             </Container>
         );

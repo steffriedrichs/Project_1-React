@@ -19,9 +19,10 @@ export default class Board extends Component {
         }
     }
 
-    initStones(n) {
+    initStones(n, level) {
         let stonesArray = [...Array(n * n).fill(0)];
-        let numbersToSelect = Math.floor(n * n * 0.4);
+        let factor = (level%5 != 0) ? level%5 : 5;
+        let numbersToSelect = Math.floor(n * n * (factor / 10 + 0.2));
 
         for (let i = 0; i < numbersToSelect; i = i + 1) {
             const index = Math.floor(Math.random() * n * n);
@@ -176,7 +177,7 @@ export default class Board extends Component {
     render() {
         let currentStones =
             this.state.currentStones.length === 0
-                ? this.initStones(this.props.numberOfRows)
+                ? this.initStones(this.props.numberOfRows, this.props.level)
                 : this.state.currentStones;
 
         return (
@@ -187,8 +188,12 @@ export default class Board extends Component {
                         <WinningText>YOU WIN!!</WinningText>
                         <Nodisplay>
                             {setTimeout(
-                                () => this.props.handleWinning(this.props.numberOfRows),
-                                3000
+                                () =>
+                                    this.props.handleWinning(
+                                        this.props.numberOfRows,
+                                        this.props.level
+                                    ),
+                                1000
                             )}
                         </Nodisplay>
                     </InfoBox>

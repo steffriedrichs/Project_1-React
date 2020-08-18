@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
-import { PlayingBoard, Field, Stone, InfoBox, WinningText, Nodisplay, MovesIndicator } from "./style";
+import {
+    PlayingBoard,
+    Field,
+    Stone,
+    InfoBox,
+    WinningText,
+    Nodisplay,
+    MovesIndicator,
+} from "./style";
 
 export default class Board extends Component {
     constructor(props) {
@@ -202,19 +210,28 @@ export default class Board extends Component {
                 <PlayingBoard isWrongMove={this.state.isWrongMove}>
                     {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
                     {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
-                        <InfoBox>
-                            <WinningText>YOU WIN!!</WinningText>
-                            <Nodisplay>
-                                {setTimeout(
-                                    () =>
-                                        this.props.handleWinning(
-                                            this.props.numberOfRows,
-                                            this.props.level
-                                        ),
-                                    1000
-                                )}
-                            </Nodisplay>
-                        </InfoBox>
+                        this.props.level == 15 ? (
+                            <InfoBox>
+                                <WinningText>
+                                    YOU WON THE GAME! <br></br>
+                                    with {this.state.numberOfMoves} Moves
+                                </WinningText>
+                            </InfoBox>
+                        ) : (
+                            <InfoBox>
+                                <WinningText>YOU WIN!! Next level... </WinningText>
+                                <Nodisplay>
+                                    {setTimeout(
+                                        () =>
+                                            this.props.handleWinning(
+                                                this.props.numberOfRows,
+                                                this.props.level
+                                            ),
+                                        1000
+                                    )}
+                                </Nodisplay>
+                            </InfoBox>
+                        )
                     ) : (
                         <></>
                     )}

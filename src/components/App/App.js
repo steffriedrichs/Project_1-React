@@ -7,7 +7,7 @@ import {
     Button,
     LevelDisplay,
     BottomContentContainer,
-    FixLevelSelector,
+    ButtonText,
 } from "./style";
 
 export default class App extends Component {
@@ -16,6 +16,7 @@ export default class App extends Component {
         this.state = {
             numberOfRows: 3,
             level: 1,
+            numberOfMoves: 0,
         };
         this.startNewGame = this.startNewGame.bind(this);
         this.getFieldsArray = this.getFieldsArray.bind(this);
@@ -57,13 +58,6 @@ export default class App extends Component {
             <Container>
                 <TopContentContainer>
                     <LevelDisplay>Level {this.state.level}</LevelDisplay>
-                    <Button
-                        onClick={() => {
-                            this.forceUpdate();
-                        }}
-                    >
-                        Restart Level
-                    </Button>
                 </TopContentContainer>
                 <Board
                     numberOfRows={this.state.numberOfRows}
@@ -74,10 +68,17 @@ export default class App extends Component {
                 <BottomContentContainer>
                     <Button
                         onClick={() => {
+                            this.forceUpdate();
+                        }}
+                    >
+                        <ButtonText>Restart Level</ButtonText>
+                    </Button>
+                    <Button
+                        onClick={() => {
                             this.startNewGame();
                         }}
                     >
-                        New Game
+                        <ButtonText>New Game</ButtonText>
                     </Button>
                 </BottomContentContainer>
             </Container>

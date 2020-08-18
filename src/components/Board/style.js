@@ -1,7 +1,12 @@
 import styled from "styled-components";
+import { keyframes } from "styled-components";
+
+const wrongMoveError = keyframes`
+    0% { border: 3px solid red; }
+    100% { border: none; }
+`;
 
 export const PlayingBoard = styled.div`
-    border: 3px solid red;
     display: inline-block;
     width: 60vw;
     height: 60vw;
@@ -9,6 +14,9 @@ export const PlayingBoard = styled.div`
     max-height: 400px;
     border-radius: 5px;
     margin: 20px;
+    animation-name: ${props => (props.isWrongMove ? wrongMoveError : null)};
+    animation-duration: 1s;
+    animation-iteration-count: 1;
 `;
 
 export const Field = styled.div`
@@ -53,4 +61,8 @@ export const WinningText = styled.div`
 
 export const Nodisplay = styled.p`
     display: none;
+`;
+
+export const MovesIndicator = styled.p`
+    font-size: 20px;
 `;

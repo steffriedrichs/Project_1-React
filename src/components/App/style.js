@@ -17,7 +17,7 @@ export const Button = styled.button`
     display: inline;
     height: 25px; 
     line-height: 23px;
-    margin: 5px;
+    margin: 5px 10px;
     background-color: grey;
     color: white;
     text-align: center;
@@ -30,14 +30,16 @@ export const Button = styled.button`
       }
 `;
 
+export const ButtonText = styled.span`
+    padding: 5px;
+`;
+
 export const LevelDisplay = styled.div`
-    display: inline;
+    display: block;
+    font-size: 180%;
+    padding-bottom: 10%;
 `;
 
 export const BottomContentContainer = styled.div`
     padding: 0px 20px;
-`;
-
-export const FixLevelSelector = styled.div`
-    display: inline;
 `;

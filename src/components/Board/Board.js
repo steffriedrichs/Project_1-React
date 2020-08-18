@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
-import { PlayingBoard, Field, Stone, InfoBox, WinningText, Nodisplay } from "./style";
-import { Button } from "../App/style";
+import { PlayingBoard, Field, Stone, InfoBox, WinningText, Nodisplay, MovesIndicator } from "./style";
 
 export default class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentStones: [],
+            isWrongMove: false,
+            numberOfMoves: 0,
         };
         this.getFields = this.getFields.bind(this);
         this.checkMove = this.checkMove.bind(this);
@@ -21,7 +22,7 @@ export default class Board extends Component {
 
     initStones(n, level) {
         let stonesArray = [...Array(n * n).fill(0)];
-        let factor = (level%5 != 0) ? level%5 : 5;
+        let factor = level % 5 != 0 ? level % 5 : 5;
         let numbersToSelect = Math.floor(n * n * (factor / 10 + 0.2));
 
         for (let i = 0; i < numbersToSelect; i = i + 1) {
@@ -35,20 +36,23 @@ export default class Board extends Component {
         return stonesArray;
     }
 
+    getMoveDiretion(moveX, moveY) {
+        if (Math.abs(moveX) > Math.abs(moveY)) {
+            return moveX > 0 ? "right" : "left";
+        }
+        if (Math.abs(moveY) > Math.abs(moveX)) {
+            return moveY > 0 ? "down" : "up";
+        }
+        return null;
+    }
+
     getMouseMove(mouseMoveEvent, mouseDown) {
         if (!mouseDown) return null;
 
         let moveX = mouseMoveEvent.movementX;
         let moveY = mouseMoveEvent.movementY;
-        let result = null;
 
-        if (Math.abs(moveX) > Math.abs(moveY)) {
-            result = moveX > 0 ? "right" : "left";
-        }
-        if (Math.abs(moveY) > Math.abs(moveX)) {
-            result = moveY > 0 ? "down" : "up";
-        }
-        return result;
+        return this.getMoveDiretion(moveX, moveY);
     }
 
     getTouchMove(touchMoveEvent, ongoingTouches) {
@@ -57,6 +61,7 @@ export default class Board extends Component {
             posY: touchMoveEvent.targetTouches[0].pageY,
         };
         ongoingTouches.push(newTouch);
+
         return ongoingTouches;
     }
 
@@ -68,14 +73,7 @@ export default class Board extends Component {
         let moveX = end.posX - start.posX;
         let moveY = end.posY - start.posY;
 
-        let result = null;
-        if (Math.abs(moveX) > Math.abs(moveY)) {
-            result = moveX > 0 ? "right" : "left";
-        }
-        if (Math.abs(moveY) > Math.abs(moveX)) {
-            result = moveY > 0 ? "down" : "up";
-        }
-        return result;
+        return this.getMoveDiretion(moveX, moveY);
     }
 
     checkMove(direction, fieldId, n, currentStones) {
@@ -86,7 +84,8 @@ export default class Board extends Component {
                 currentStones[colOrRow[k]] = currentStones[colOrRow[k + 1]];
             }
             currentStones[colOrRow[n - 1]] = 0;
-            this.setState({ currentStones: currentStones });
+            let moves = eval(this.state.numberOfMoves + 1);
+            this.setState({ currentStones: currentStones, numberOfMoves: moves });
         };
 
         let shiftToEnd = (colOrRow, currentStones) => {
@@ -94,7 +93,12 @@ export default class Board extends Component {
                 currentStones[colOrRow[k]] = currentStones[colOrRow[k - 1]];
             }
             currentStones[colOrRow[0]] = 0;
-            this.setState({ currentStones: currentStones });
+            let moves = eval(this.state.numberOfMoves + 1);
+            this.setState({ currentStones: currentStones, numberOfMoves: moves });
+        };
+
+        let displayWrongMove = numberOfBlockingStone => {
+            this.setState({ isWrongMove: true });
         };
 
         if (direction === "up" || direction === "down") {
@@ -104,12 +108,18 @@ export default class Board extends Component {
                 col.push(n * (n - i) + number);
             }
             if (direction === "up") {
-                if (currentStones[col[0]] === 1) return;
+                if (currentStones[col[0]] === 1) {
+                    displayWrongMove(col[0]);
+                    return;
+                }
                 shiftToStart(col, currentStones);
                 return;
             }
             if (direction === "down") {
-                if (currentStones[col[n - 1]] === 1) return;
+                if (currentStones[col[n - 1]] === 1) {
+                    displayWrongMove(col[n - 1]);
+                    return;
+                }
                 shiftToEnd(col, currentStones);
                 return;
             }
@@ -122,12 +132,18 @@ export default class Board extends Component {
                 row.push(n - j + number * n);
             }
             if (direction === "right") {
-                if (currentStones[row[n - 1]] === 1) return;
+                if (currentStones[row[n - 1]] === 1) {
+                    displayWrongMove(row[n - 1]);
+                    return;
+                }
                 shiftToEnd(row, currentStones);
                 return;
             }
             if (direction === "left") {
-                if (currentStones[row[0]] === 1) return;
+                if (currentStones[row[0]] === 1) {
+                    displayWrongMove(row[0]);
+                    return;
+                }
                 shiftToStart(row, currentStones);
                 return;
             }
@@ -181,26 +197,29 @@ export default class Board extends Component {
                 : this.state.currentStones;
 
         return (
-            <PlayingBoard>
-                {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
-                {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
-                    <InfoBox>
-                        <WinningText>YOU WIN!!</WinningText>
-                        <Nodisplay>
-                            {setTimeout(
-                                () =>
-                                    this.props.handleWinning(
-                                        this.props.numberOfRows,
-                                        this.props.level
-                                    ),
-                                1000
-                            )}
-                        </Nodisplay>
-                    </InfoBox>
-                ) : (
-                    <></>
-                )}
-            </PlayingBoard>
+            <>
+                <MovesIndicator>Number of Moves: {this.state.numberOfMoves}</MovesIndicator>
+                <PlayingBoard isWrongMove={this.state.isWrongMove}>
+                    {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
+                    {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
+                        <InfoBox>
+                            <WinningText>YOU WIN!!</WinningText>
+                            <Nodisplay>
+                                {setTimeout(
+                                    () =>
+                                        this.props.handleWinning(
+                                            this.props.numberOfRows,
+                                            this.props.level
+                                        ),
+                                    1000
+                                )}
+                            </Nodisplay>
+                        </InfoBox>
+                    ) : (
+                        <></>
+                    )}
+                </PlayingBoard>
+            </>
         );
     }
 }

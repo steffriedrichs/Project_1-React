@@ -93,7 +93,11 @@ export default class Board extends Component {
             }
             currentStones[colOrRow[n - 1]] = 0;
             let moves = eval(this.state.numberOfMoves + 1);
-            this.setState({ currentStones: currentStones, numberOfMoves: moves });
+            this.setState({
+                currentStones: currentStones,
+                numberOfMoves: moves,
+                isWrongMove: false,
+            });
         };
 
         let shiftToEnd = (colOrRow, currentStones) => {
@@ -102,7 +106,11 @@ export default class Board extends Component {
             }
             currentStones[colOrRow[0]] = 0;
             let moves = eval(this.state.numberOfMoves + 1);
-            this.setState({ currentStones: currentStones, numberOfMoves: moves });
+            this.setState({
+                currentStones: currentStones,
+                numberOfMoves: moves,
+                isWrongMove: false,
+            });
         };
 
         let displayWrongMove = numberOfBlockingStone => {
@@ -169,6 +177,7 @@ export default class Board extends Component {
                 id={index}
                 rows={rows}
                 dark={field}
+                level={this.props.level}
                 onMouseDown={() => (mouseDown = true)}
                 onMouseMove={mouseMoveEvent =>
                     (direction = this.getMouseMove(mouseMoveEvent, mouseDown))
@@ -210,7 +219,7 @@ export default class Board extends Component {
                 <PlayingBoard isWrongMove={this.state.isWrongMove}>
                     {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
                     {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
-                        this.props.level == 15 ? (
+                        this.props.level == 1 ? (
                             <InfoBox>
                                 <WinningText>
                                     YOU WON THE GAME! <br></br>
@@ -218,19 +227,16 @@ export default class Board extends Component {
                                 </WinningText>
                             </InfoBox>
                         ) : (
-                            <InfoBox>
-                                <WinningText>YOU WIN!! Next level... </WinningText>
-                                <Nodisplay>
-                                    {setTimeout(
-                                        () =>
-                                            this.props.handleWinning(
-                                                this.props.numberOfRows,
-                                                this.props.level
-                                            ),
-                                        1000
-                                    )}
-                                </Nodisplay>
-                            </InfoBox>
+                            <Nodisplay>
+                                {setTimeout(
+                                    () =>
+                                        this.props.handleWinning(
+                                            this.props.numberOfRows,
+                                            this.props.level
+                                        ),
+                                    500
+                                )}
+                            </Nodisplay>
                         )
                     ) : (
                         <></>

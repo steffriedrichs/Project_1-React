@@ -2,15 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     margin: auto;
-    border: 3px solid black;
     height: 100%;
     width: 60vw + 40px;
     max-width: 440px;
     text-align: center;
+    height: max-content;
+    padding-bottom: 10%;
 `;
 
 export const TopContentContainer = styled.div`
-    padding: 120px 20px 0px 20px;
+    padding: 15vh 20px 0px 20px;
 `;
 
 export const Button = styled.button`
@@ -31,6 +32,7 @@ export const Button = styled.button`
 `;
 
 export const ButtonText = styled.span`
+    font-size: 120%;
     padding: 5px;
 `;
 
@@ -41,5 +43,5 @@ export const LevelDisplay = styled.div`
 `;
 
 export const BottomContentContainer = styled.div`
-    padding: 0px 20px;
+    padding: 20px;
 `;

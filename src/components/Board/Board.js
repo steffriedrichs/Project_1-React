@@ -30,7 +30,7 @@ export default class Board extends Component {
 
     initStones(n, level) {
         let stonesArray = [...Array(n * n).fill(0)];
-        let factor = level % 5 != 0 ? level % 5 : 5;
+        let factor = level % 5 !== 0 ? level % 5 : 5;
         let numbersToSelect = Math.floor(n * n * (factor / 10 + 0.2));
 
         for (let i = 0; i < numbersToSelect; i = i + 1) {
@@ -92,7 +92,7 @@ export default class Board extends Component {
                 currentStones[colOrRow[k]] = currentStones[colOrRow[k + 1]];
             }
             currentStones[colOrRow[n - 1]] = 0;
-            let moves = eval(this.state.numberOfMoves + 1);
+            let moves = this.state.numberOfMoves + 1;
             this.setState({
                 currentStones: currentStones,
                 numberOfMoves: moves,
@@ -105,7 +105,7 @@ export default class Board extends Component {
                 currentStones[colOrRow[k]] = currentStones[colOrRow[k - 1]];
             }
             currentStones[colOrRow[0]] = 0;
-            let moves = eval(this.state.numberOfMoves + 1);
+            let moves = this.state.numberOfMoves + 1;
             this.setState({
                 currentStones: currentStones,
                 numberOfMoves: moves,
@@ -219,7 +219,7 @@ export default class Board extends Component {
                 <PlayingBoard isWrongMove={this.state.isWrongMove}>
                     {this.getFields(this.props.fieldsArray, this.props.numberOfRows, currentStones)}
                     {this.checkIfWon(currentStones, this.props.fieldsArray) ? (
-                        this.props.level == 1 ? (
+                        this.props.level === 15 ? (
                             <InfoBox>
                                 <WinningText>
                                     YOU WON THE GAME! <br></br>

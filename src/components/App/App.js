@@ -29,7 +29,7 @@ export default class App extends Component {
 
     handleFieldSizeChange(currentSize, currentLevel) {
         let newLevel = currentLevel + 1;
-        if (currentLevel % 5 != 0) {
+        if (currentLevel % 5 !== 0) {
             this.setState({ level: newLevel });
         } else {
             let newSize = currentSize + 1;
@@ -39,7 +39,7 @@ export default class App extends Component {
 
     getFieldsArray(n, level) {
         let fieldsArray = [...Array(n * n).fill(0)];
-        let factor = level % 5 != 0 ? level % 5 : 5;
+        let factor = level % 5 !== 0 ? level % 5 : 5;
         let numbersToSelect = Math.floor(n * n * (factor / 10 + 0.2));
 
         for (let i = 0; i < numbersToSelect; i = i + 1) {
